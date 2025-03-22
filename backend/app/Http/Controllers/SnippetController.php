@@ -6,14 +6,12 @@ use App\Models\Snippet;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller; // Make sure this import is present
 
 class SnippetController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
+    
 
     /**
      * Display a listing of the resource.
