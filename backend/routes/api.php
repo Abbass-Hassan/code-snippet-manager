@@ -7,40 +7,52 @@ use App\Http\Controllers\SnippetController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\TagController;
 
-
-
-// Authentication routes
-Route::controller(AuthController::class)->group(function () {
-    Route::post('auth/register', 'register');
-    Route::post('auth/login', 'login');
+/**
+ * Authentication Routes
+ */
+Route::prefix('auth')->group(function () {
+    // Public authentication routes
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
     
-    // Protected auth routes
+    // Protected authentication routes
     Route::middleware('auth:api')->group(function () {
-        Route::post('auth/logout', 'logout');
-        Route::post('auth/refresh', 'refresh');
-        Route::get('auth/user', 'me');
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('refresh', [AuthController::class, 'refresh']);
+        Route::get('user', [AuthController::class, 'me']);
     });
 });
 
-// Protected routes for authenticated users
+/**
+ * Protected Resource Routes
+ */
 Route::middleware('auth:api')->group(function () {
-    // Snippet routes
-    Route::get('snippets', [SnippetController::class, 'index']);
-    Route::post('snippets', [SnippetController::class, 'store']);
-    Route::get('snippets/search', [SnippetController::class, 'search']);
-    Route::get('snippets/{id}', [SnippetController::class, 'show']);
-    Route::put('snippets/{id}', [SnippetController::class, 'update']);
-    Route::delete('snippets/{id}', [SnippetController::class, 'destroy']);
-    
-    // Favorite routes
-    Route::get('favorites', [FavoriteController::class, 'index']);
-    Route::post('favorites/{id}', [FavoriteController::class, 'store']);
-    Route::delete('favorites/{id}', [FavoriteController::class, 'destroy']);
-    
-    // Tag routes
-    Route::get('tags', [TagController::class, 'index']);
+    /**
+     * Tag & Language Routes
+     */
+    Route::prefix('tags')->group(function () {
+        Route::get('/', [TagController::class, 'index']);
+    });
     Route::get('languages', [TagController::class, 'languages']);
+    
+    /**
+     * Snippet Routes
+     */
+    Route::prefix('snippets')->group(function () {
+        Route::get('/', [SnippetController::class, 'index']);
+        Route::post('/', [SnippetController::class, 'store']);
+        Route::get('search', [SnippetController::class, 'search']);
+        Route::get('{id}', [SnippetController::class, 'show']);
+        Route::put('{id}', [SnippetController::class, 'update']);
+        Route::delete('{id}', [SnippetController::class, 'destroy']);
+    });
+    
+    /**
+     * Favorite Routes
+     */
+    Route::prefix('favorites')->group(function () {
+        Route::get('/', [FavoriteController::class, 'index']);
+        Route::post('{id}', [FavoriteController::class, 'store']);
+        Route::delete('{id}', [FavoriteController::class, 'destroy']);
+    });
 });
-
-
-

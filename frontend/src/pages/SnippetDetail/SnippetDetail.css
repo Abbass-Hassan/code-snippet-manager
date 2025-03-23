@@ -1,0 +1,178 @@
+/* src/pages/SnippetDetail/SnippetDetail.css */
+
+/* Page Container */
+.snippet-detail-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: #f9fafb;
+  }
+  
+  /* Actions */
+  .snippet-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  /* Button Styles */
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary {
+    background-color: #0ea5e9;
+    color: #ffffff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0284c7;
+  }
+  
+  .btn-secondary {
+    background-color: #e2e8f0;
+    color: #0f172a;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #cbd5e1;
+  }
+  
+  .btn-danger {
+    background-color: #f87171;
+    color: #ffffff;
+  }
+  
+  .btn-danger:hover {
+    background-color: #ef4444;
+  }
+  
+  /* Error and Loading States */
+  .error-container {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  
+  .error-message {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .loading-spinner {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #0f172a;
+    margin-top: 2rem;
+  }
+  
+  /* Snippet Detail Header */
+  .snippet-detail-header {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+  }
+  
+  .snippet-detail-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+  }
+  
+  .snippet-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    color: #475569;
+    font-size: 0.9rem;
+  }
+  
+  /* Description */
+  .snippet-detail-description {
+    margin-top: 1rem;
+    color: #475569;
+    line-height: 1.4;
+  }
+  
+  /* Tags */
+  .snippet-detail-tags {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tag {
+    background-color: #f1f5f9;
+    color: #475569;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  /* Code Container */
+  .snippet-code-container {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .code-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #0f172a;
+  }
+  
+  /* Copy Button */
+  .copy-button {
+    background-color: #e2e8f0;
+    color: #0f172a;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+  
+  .copy-button:hover {
+    background-color: #cbd5e1;
+  }
+  
+  /* Code Block */
+  .code-block {
+    border-radius: 6px;
+    font-size: 0.85rem;
+  }
+  

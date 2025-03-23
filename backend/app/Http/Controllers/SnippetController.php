@@ -6,7 +6,7 @@ use App\Models\Snippet;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller; // Make sure this import is present
+use App\Http\Controllers\Controller; 
 
 class SnippetController extends Controller
 {
@@ -14,17 +14,26 @@ class SnippetController extends Controller
     
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $snippets = Auth::user()->snippets()->with('tags')->latest()->get();
-        
-        return response()->json([
-            'status' => 'success',
-            'snippets' => $snippets
-        ]);
-    }
+ * Display a listing of the resource.
+ */
+public function index()
+{
+    $user = Auth::user();
+    
+    // Get both user's own snippets and public snippets
+    $snippets = Snippet::with('tags', 'user:id,name,email')
+        ->where(function($query) use ($user) {
+            $query->where('user_id', $user->id)
+                  ->orWhere('is_public', true);
+        })
+        ->latest()
+        ->get();
+    
+    return response()->json([
+        'status' => 'success',
+        'snippets' => $snippets
+    ]);
+}
 
     /**
      * Store a newly created resource in storage.
@@ -154,48 +163,52 @@ class SnippetController extends Controller
      * Search for snippets.
      */
     public function search(Request $request)
-    {
-        $request->validate([
-            'query' => 'nullable|string',
-            'language' => 'nullable|string',
-            'tag' => 'nullable|string',
-        ]);
+{
+    $request->validate([
+        'query' => 'nullable|string',
+        'language' => 'nullable|string',
+        'tag' => 'nullable|string',
+    ]);
 
-        $user = Auth::user();
-        
-        $query = Snippet::with('tags')
-            ->where(function($query) use ($user) {
-                $query->where('user_id', $user->id)
-                      ->orWhere('is_public', true);
-            });
-        
-        // Search by keyword
-        if ($request->has('query') && $request->query) {
-            $searchTerm = $request->query;
-            $query->where(function($q) use ($searchTerm) {
-                $q->where('title', 'like', "%{$searchTerm}%")
-                  ->orWhere('code', 'like', "%{$searchTerm}%")
-                  ->orWhere('description', 'like', "%{$searchTerm}%");
-            });
-        }
-        
-        // Filter by language
-        if ($request->has('language') && $request->language) {
-            $query->where('language', $request->language);
-        }
-        
-        // Filter by tag
-        if ($request->has('tag') && $request->tag) {
-            $query->whereHas('tags', function($q) use ($request) {
-                $q->where('name', $request->tag);
-            });
-        }
-        
-        $snippets = $query->latest()->get();
-        
-        return response()->json([
-            'status' => 'success',
-            'snippets' => $snippets
-        ]);
+    $user = Auth::user();
+    $searchTerm = $request->input('query');
+    $language = $request->input('language');
+    $tag = $request->input('tag');
+
+    // Start with snippets that belong to the user or are public.
+    $snippetsQuery = Snippet::with('tags')
+        ->where(function($q) use ($user) {
+            $q->where('user_id', $user->id)
+              ->orWhere('is_public', true);
+        });
+
+    // Apply keyword search (title, code, description)
+    if ($searchTerm) {
+        $snippetsQuery->where(function($q) use ($searchTerm) {
+            $q->where('title', 'like', "%{$searchTerm}%")
+              ->orWhere('code', 'like', "%{$searchTerm}%")
+              ->orWhere('description', 'like', "%{$searchTerm}%");
+        });
     }
+
+    // Filter by language
+    if ($language) {
+        $snippetsQuery->where('language', $language);
+    }
+
+    // Filter by tag using a whereHas on the relationship
+    if ($tag) {
+        $snippetsQuery->whereHas('tags', function($q) use ($tag) {
+            $q->where('name', $tag);
+        });
+    }
+
+    $snippets = $snippetsQuery->latest()->get();
+
+    return response()->json([
+        'status' => 'success',
+        'snippets' => $snippets
+    ]);
+}
+
 }

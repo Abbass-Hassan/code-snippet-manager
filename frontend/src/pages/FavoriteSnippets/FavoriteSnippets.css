@@ -1,0 +1,89 @@
+/* src/pages/FavoriteSnippets/FavoriteSnippets.css */
+.favorites-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .favorites-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .favorites-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .star-icon {
+    color: #f59e0b;
+    margin-right: 0.5rem;
+  }
+  
+  .favorites-actions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .error-message {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 1.25rem;
+    color: #64748b;
+  }
+  
+  .no-favorites {
+    text-align: center;
+    padding: 3rem 1rem;
+    background-color: #f8fafc;
+    border-radius: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .no-favorites p {
+    margin-bottom: 1rem;
+    color: #64748b;
+  }
+  
+  .no-favorites .btn {
+    margin-top: 1rem;
+  }
+  
+  .favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .favorites-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .favorites-actions {
+      width: 100%;
+    }
+    
+    .favorites-grid {
+      grid-template-columns: 1fr;
+    }
+  }
